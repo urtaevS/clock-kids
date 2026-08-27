@@ -38,7 +38,7 @@ npm install
 npm run dev
 ```
 
-Открой **http://localhost:5173** — и вперёд! 💛
+Открой **http://localhost:5174** — и вперёд! 💛
 
 Сборка для продакшена:
 

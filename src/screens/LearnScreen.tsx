@@ -41,7 +41,7 @@ export default function LearnScreen({ progress, go, markStudied }: { progress: P
 
       <header className="mt-4 text-center">
         <h1 className="font-display text-2xl font-bold">Изучаем время</h1>
-        <p className="mt-1 text-[15px] font-extrabold text-[#8d84a3]">Нажми на карточку 👆 — там живой пример!</p>
+        <p className="mt-1 text-[15px] font-extrabold text-[#8d84a3]">Нажми на карточку � — там живой пример!</p>
       </header>
 
       <div className="mt-5 space-y-3">

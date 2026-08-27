@@ -16,7 +16,7 @@ const GREETINGS = [
 
 const ACTIONS: { icon: string; label: string; sub?: string; color: ChunkyColor; to: Screen }[] = [
   { icon: 'BookOpen', label: 'Учить', sub: 'как устроены часы', color: 'sky', to: { name: 'learn' } },
-  { icon: 'Clock3', label: 'Определи время', sub: 'с аналоговых часов', color: 'mint', to: { name: 'read' } },
+  { icon: 'Clock3', label: 'Определи время', sub: 'по часам со стрелками', color: 'mint', to: { name: 'read' } },
   { icon: 'Clock8', label: 'Выставь стрелки', sub: 'по цифровому времени', color: 'grape', to: { name: 'set' } },
   { icon: 'Hourglass', label: 'Сколько прошло?', sub: 'интервалы', color: 'coral', to: { name: 'elapsed' } },
   { icon: 'RefreshCw', label: 'Переведи время', sub: 'часы — минуты', color: 'candy', to: { name: 'convert' } },

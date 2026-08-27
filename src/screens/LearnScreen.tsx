@@ -5,9 +5,9 @@ import BigButton from '../components/BigButton';
 import type { Screen, Progress } from '../types';
 
 const LESSONS = [
-  { id: 1, icon: '1', title: 'Две стрелки-друга 🤝', color: 'bg-sky-soft', hint: 'Короткая на 3, длинная на 12 = 3 часа ровно!', text: 'На часах 12 цифр по кругу.\n\n🟠 Короткая толстая — показывает ЧАСЫ (как черепашка, медленно).\n🔵 Длинная тонкая — показывает МИНУТЫ (как зайчик, бегает быстро).' },
-  { id: 2, icon: '2', title: 'Четверть и половина 🍕', color: 'bg-mint-soft', hint: 'На 3 — как четверть пиццы!', text: 'Каждое деление = 5 минут.\n\n• Длинная на 12 → ровно (2:00)\n• На 3 → четверть часа = 15 мин (2:15)\n• На 6 → половина = 30 мин (2:30)\n• На 9 → без пятнадцати = 45 мин (2:45)' },
-  { id: 3, icon: '3', title: 'Утро и вечер 🌞🌙', color: 'bg-candy-soft', hint: '14:30 — это 2:30 дня', text: 'Днём часы идут два круга!\n\n🌞 Утром: 7:00 — идём в школу\n🌙 Вечером: 19:00 — те же 7 часов, только вечера.\n\n13:00 = 1 час дня, 20:00 = 8 вечера. Просто отними 12!' },
+  { id: 1, icon: '1', title: 'Две стрелки-друга 🤝', color: 'bg-sky-soft', hint: 'Короткая на 3, длинная на 12 = 3 часа ровно!', text: 'На часах 12 цифр по кругу.\n\n🟠 Короткая толстая — показывает ЧАСЫ (двигается медленно).\n🔵 Длинная тонкая — показывает МИНУТЫ (двигается быстрее).' },
+  { id: 2, icon: '2', title: 'Четверть и половина 🍕', color: 'bg-mint-soft', hint: 'На 3 — как четверть пиццы!', text: 'Каждое деление = 5 минут.\n\nЕсли:\n• Длинная на 12 → ровно (2:00)\n• На 3 → пятнадцать минут = 15 мин (2:15)\n• На 6 → половина = 30 мин (2:30)\n• На 9 → без пятнадцати = 45 мин (2:45)' },
+  { id: 3, icon: '3', title: 'Утро и вечер 🌞🌙', color: 'bg-candy-soft', hint: '14:30 — это 2:30 дня', text: 'За день короткая стрелка проходит циферблат два раза!\n\n🌞 Утром: 7:00 — идём в школу\n🌙 Вечером: 19:00 — те же 7 часов, только вечера.\n\n13:00 = 1 час дня, 20:00 = 8 вечера. Просто отними 12!' },
   { id: 4, icon: '4', title: 'Сколько прошло? ⏳', color: 'bg-grape-soft', hint: 'От 9:15 до 10:45 = 1 ч 30 мин', text: 'Смотри на двое часов и считай.\n\nБыло 9:15 — стало 10:45.\nСначала часы: 9 → 10 = 1 час.\nПотом минуты: 15 → 45 = 30 мин.\n\nИтого: 1 ч 30 мин — целый мультик!' },
 ];
 
@@ -24,11 +24,11 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
   // Урок засчитывается только по факту >=10 ответов, а не по раскрытию — для UX показываем прогресс
   useEffect(() => { tryMarkStudiedFromStats(); }, [progress, tryMarkStudiedFromStats, open]);
 
-  const times: Record<number, { h: number; m: number }> = {
-    1: { h: 3, m: 0 },
-    2: { h: 2, m: 30 },
-    3: { h: 14, m: 30 },
-    4: { h: 9, m: 15 },
+  const LESSON_EXAMPLES: Record<number, { h: number; m: number }[]> = {
+    1: [{ h: 3, m: 0 }, { h: 6, m: 0 }, { h: 9, m: 0 }, { h: 12, m: 0 }],
+    2: [{ h: 2, m: 0 }, { h: 2, m: 15 }, { h: 2, m: 30 }, { h: 2, m: 45 }],
+    3: [{ h: 7, m: 0 }, { h: 13, m: 0 }, { h: 20, m: 0 }, { h: 2, m: 0 }],
+    4: [{ h: 9, m: 15 }, { h: 10, m: 45 }, { h: 14, m: 30 }, { h: 15, m: 0 }],
   };
 
   return (
@@ -68,13 +68,19 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
               </div>
               <p className="mt-2 whitespace-pre-line text-sm font-bold leading-snug">{l.text}</p>
               {isOpen && (
-                <div className="mt-3 flex flex-col items-center gap-3 rounded-3xl bg-white p-4">
-                  <AnalogClock time={times[l.id]} size={160} />
-                  <span className="rounded-full bg-ink px-3 py-1 text-sm font-extrabold text-white">
-                    {times[l.id].h}:{String(times[l.id].m).padStart(2, '0')}
-                  </span>
-                  <p className="text-center text-xs font-extrabold text-[#8d84a3]">{l.hint}</p>
-                  <div onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                <div className="mt-3 rounded-3xl bg-white p-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    {LESSON_EXAMPLES[l.id].map((t) => (
+                      <div key={`${t.h}:${t.m}`} className="flex flex-col items-center gap-1.5 rounded-2xl bg-[#FFF8EC] p-2.5">
+                        <AnalogClock time={t} size={100} />
+                        <span className="rounded-full bg-ink px-2.5 py-0.5 text-xs font-extrabold text-white">
+                          {t.h}:{String(t.m).padStart(2, '0')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-center text-xs font-extrabold text-[#8d84a3]">{l.hint}</p>
+                  <div className="mt-3" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                     <BigButton
                       color="sun"
                       className="h-11 w-full text-sm"

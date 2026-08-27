@@ -1,8 +1,8 @@
 import { Capacitor } from '@capacitor/core';
 import { useEffect, useState } from 'react';
 
-const LATEST_URL = 'https://api.github.com/repos/urtaevS/mult-table-kids/releases/latest';
-const STORAGE_KEY = 'dismissed-update-tag';
+const LATEST_URL = 'https://api.github.com/repos/urtaevS/clock-kids/releases/latest';
+const STORAGE_KEY = 'dismissed-update-tag-clock-kids';
 
 function cmp(a: string, b: string): number {
   const pa = a.replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0);

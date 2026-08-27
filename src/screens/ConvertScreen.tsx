@@ -45,11 +45,12 @@ export default function ConvertScreen({ recordSkill, go }: { recordSkill: (s: Cl
 
   return (
     <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
-      <div className="flex items-center gap-2">
+      <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
         <button type="button" onClick={() => go({ name: 'home' })} className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5">
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
-        <h1 className="flex-1 text-center font-display text-base font-bold">Переведи время</h1>
+        <h1 className="text-center font-display text-base font-bold">Переведи время</h1>
+        <span aria-hidden className="h-12 w-12" />
       </div>
 
       <div className="mt-4 rounded-blob bg-white p-6 text-center shadow-[0_6px_0_#f0e7d6]">

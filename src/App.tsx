@@ -10,6 +10,7 @@ import ReadClockScreen from './screens/ReadClockScreen';
 import SetClockScreen from './screens/SetClockScreen';
 import ElapsedScreen from './screens/ElapsedScreen';
 import ConvertScreen from './screens/ConvertScreen';
+import DayPartScreen from './screens/DayPartScreen';
 import TestScreen from './screens/TestScreen';
 import TimeAttackScreen from './screens/TimeAttackScreen';
 import ResultsScreen from './screens/ResultsScreen';
@@ -52,7 +53,7 @@ export default function App() {
   const active: NavKey | null =
     screen.name === 'home' ? 'home'
       : screen.name === 'learn' ? 'learn'
-      : screen.name === 'read' || screen.name === 'set' || screen.name === 'elapsed' || screen.name === 'convert' || screen.name === 'time-attack' || screen.name === 'test'
+      : screen.name === 'read' || screen.name === 'set' || screen.name === 'elapsed' || screen.name === 'convert' || screen.name === 'daypart' || screen.name === 'time-attack' || screen.name === 'test'
         ? 'train'
         : screen.name === 'results' ? 'results'
         : null;
@@ -82,6 +83,9 @@ export default function App() {
       break;
     case 'convert':
       view = <ConvertScreen recordSkill={recordSkill} go={go} />;
+      break;
+    case 'daypart':
+      view = <DayPartScreen recordSkill={recordSkill} go={go} />;
       break;
     case 'test':
       view = <TestScreen recordSkill={recordSkill} finishTest={finishTest} go={go} />;

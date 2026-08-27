@@ -1,5 +1,5 @@
 export type TimeDifficulty = 'easy' | 'medium' | 'hard';
-export type ClockSkill = 'read' | 'set' | 'elapsed' | 'convert';
+export type ClockSkill = 'read' | 'set' | 'elapsed' | 'convert' | 'daypart';
 export type Screen =
   | { name: 'home' }
   | { name: 'learn' }
@@ -7,6 +7,7 @@ export type Screen =
   | { name: 'set'; difficulty?: TimeDifficulty }
   | { name: 'elapsed' }
   | { name: 'convert' }
+  | { name: 'daypart' }
   | { name: 'test' }
   | { name: 'time-attack'; difficulty?: TimeDifficulty }
   | { name: 'results' };

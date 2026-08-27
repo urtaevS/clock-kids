@@ -10,7 +10,7 @@ const DEFAULT: Progress = {
   stars: 0, streak: 0, bestStreak: 0,
   answersCorrect: 0, answersTotal: 0,
   studied: [],
-  skillStats: { read: { correct: 0, total: 0 }, set: { correct: 0, total: 0 }, elapsed: { correct: 0, total: 0 }, convert: { correct: 0, total: 0 } },
+  skillStats: { read: { correct: 0, total: 0 }, set: { correct: 0, total: 0 }, elapsed: { correct: 0, total: 0 }, convert: { correct: 0, total: 0 }, daypart: { correct: 0, total: 0 } },
   bestTest: 0, lastTest: null, achievements: [],
   bestTimeAttack: {},
 };

@@ -97,7 +97,7 @@ export default function ResultsScreen({
           </div>
 
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-2">
+        <div className="mt-4 grid grid-cols-3 gap-2">
           <div className="rounded-2xl bg-sky-soft p-3 text-center">
             <p className="text-xs font-bold text-[#2e8fdb]">Прочитай</p>
             <p className="font-display text-lg font-bold">{progress.skillStats.read.correct} / {progress.skillStats.read.total}</p>
@@ -113,6 +113,10 @@ export default function ResultsScreen({
           <div className="rounded-2xl bg-candy-soft p-3 text-center">
             <p className="text-xs font-bold text-[#e06693]">Переведи</p>
             <p className="font-display text-lg font-bold">{progress.skillStats.convert.correct} / {progress.skillStats.convert.total}</p>
+          </div>
+          <div className="rounded-2xl bg-sun-soft p-3 text-center">
+            <p className="text-xs font-bold text-[#e0992b]">Утро/Вечер</p>
+            <p className="font-display text-lg font-bold">{(progress.skillStats.daypart?.correct ?? 0)} / {(progress.skillStats.daypart?.total ?? 0)}</p>
           </div>
         </div>
       </section>

@@ -11,15 +11,16 @@ const LESSONS = [
   { id: 4, icon: '4', title: 'Интервалы', color: 'bg-grape-soft', text: 'Сколько прошло? Считай по часам: от 09:15 до 10:45 — 1 ч 30 мин.' },
 ];
 
-export default function LearnScreen({ progress, go }: { progress: Progress; go: (s: Screen) => void }) {
+export default function LearnScreen({ progress, go, markStudied }: { progress: Progress; go: (s: Screen) => void; markStudied: (id: number) => void }) {
   const [open, setOpen] = useState<number | null>(null);
   const scrollRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (open !== null && scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (open !== null) {
+      markStudied(open);
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [open]);
+  }, [open, markStudied]);
 
   const times: Record<number, { h: number; m: number }> = {
     1: { h: 3, m: 0 },

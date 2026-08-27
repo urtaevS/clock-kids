@@ -17,7 +17,7 @@ import UpdateBanner from './components/UpdateBanner';
 import type { Screen } from './types';
 
 export default function App() {
-  const { progress, recordSkill, finishTest, finishTimeAttack, resetProgress, importProgress, toast } = useProgress();
+  const { progress, recordSkill, markStudied, finishTest, finishTimeAttack, resetProgress, importProgress, toast } = useProgress();
   const [screen, setScreen] = useState<Screen>({ name: 'home' });
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function App() {
       view = <HomeScreen progress={progress} go={go} />;
       break;
     case 'learn':
-      view = <LearnScreen progress={progress} go={go} />;
+      view = <LearnScreen progress={progress} go={go} markStudied={markStudied} />;
       break;
     case 'read':
       view = <ReadClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} />;

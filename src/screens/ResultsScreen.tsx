@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowLeft, Download, Upload, Star, Target, Flame, BookOpen, Zap, Timer } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowLeft, Download, Upload, Star, Target, Flame, BookOpen, Zap } from 'lucide-react';
 import BigButton from '../components/BigButton';
 import { Icon } from '../lib/icons';
 import type { Progress, Screen } from '../types';
@@ -17,6 +17,7 @@ export default function ResultsScreen({
   importProgress: (raw: string) => boolean;
 }) {
   const [msg, setMsg] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const acc = progress.answersTotal ? Math.round((progress.answersCorrect / progress.answersTotal) * 100) : 0;
 
   const exportData = () => {
@@ -30,12 +31,22 @@ export default function ResultsScreen({
     URL.revokeObjectURL(url);
   };
 
-  const onImport = () => {
-    const raw = window.prompt('Вставь JSON прогресса:');
-    if (!raw) return;
-    const ok = importProgress(raw);
-    setMsg(ok ? 'Прогресс загружен' : 'Не удалось загрузить');
-    setTimeout(() => setMsg(null), 2500);
+  const onImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const raw = String(reader.result ?? '');
+      const ok = importProgress(raw);
+      setMsg(ok ? 'Прогресс загружен' : 'Не удалось загрузить');
+      setTimeout(() => setMsg(null), 2500);
+    };
+    reader.onerror = () => {
+      setMsg('Не удалось прочитать файл');
+      setTimeout(() => setMsg(null), 2500);
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   return (
@@ -84,23 +95,7 @@ export default function ResultsScreen({
             <p className="mt-1 font-display text-2xl font-bold text-[#7a55e0]">{progress.bestTest}/10</p>
             <p className="text-xs font-extrabold text-[#7a55e0]/80">Лучший тест</p>
           </div>
-          <div className="col-span-2 flex items-center justify-around rounded-2xl bg-candy-soft p-3">
-            <Timer size={20} className="text-[#e06693]" />
-            <div className="flex gap-4 text-center">
-              <div>
-                <p className="font-display text-xl font-bold text-[#e06693]">{progress.bestTimeAttack.easy ?? 0}</p>
-                <p className="text-[11px] font-extrabold text-[#e06693]/80">лёгкий</p>
-              </div>
-              <div>
-                <p className="font-display text-xl font-bold text-[#e06693]">{progress.bestTimeAttack.medium ?? 0}</p>
-                <p className="text-[11px] font-extrabold text-[#e06693]/80">средний</p>
-              </div>
-              <div>
-                <p className="font-display text-xl font-bold text-[#e06693]">{progress.bestTimeAttack.hard ?? 0}</p>
-                <p className="text-[11px] font-extrabold text-[#e06693]/80">сложный</p>
-              </div>
-            </div>
-          </div>
+
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           <div className="rounded-2xl bg-sky-soft p-3 text-center">
@@ -146,9 +141,10 @@ export default function ResultsScreen({
           <BigButton color="white" className="flex h-12 items-center justify-center gap-2 text-sm" onClick={exportData}>
             <Download size={16} /> Сохранить
           </BigButton>
-          <BigButton color="white" className="flex h-12 items-center justify-center gap-2 text-sm" onClick={onImport}>
+          <BigButton color="white" className="flex h-12 items-center justify-center gap-2 text-sm" onClick={() => fileRef.current?.click()}>
             <Upload size={16} /> Восстановить
           </BigButton>
+          <input ref={fileRef} type="file" accept=".json,application/json" className="hidden" onChange={onImportFile} />
         </div>
         <BigButton
           color="coral"

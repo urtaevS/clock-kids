@@ -3,6 +3,7 @@ export type ClockSkill = 'read' | 'set' | 'elapsed' | 'convert' | 'daypart';
 export type Screen =
   | { name: 'home' }
   | { name: 'learn' }
+  | { name: 'train' }
   | { name: 'read'; difficulty?: TimeDifficulty }
   | { name: 'set'; difficulty?: TimeDifficulty }
   | { name: 'elapsed' }

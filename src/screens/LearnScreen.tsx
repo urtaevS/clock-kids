@@ -11,16 +11,18 @@ const LESSONS = [
   { id: 4, icon: '4', title: 'Сколько прошло? ⏳', color: 'bg-grape-soft', hint: 'От 9:15 до 10:45 = 1 ч 30 мин', text: 'Смотри на двое часов и считай.\n\nБыло 9:15 — стало 10:45.\nСначала часы: 9 → 10 = 1 час.\nПотом минуты: 15 → 45 = 30 мин.\n\nИтого: 1 ч 30 мин — целый мультик!' },
 ];
 
-export default function LearnScreen({ progress, go, markStudied }: { progress: Progress; go: (s: Screen) => void; markStudied: (id: number) => void }) {
+export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedFromStats }: { progress: Progress; go: (s: Screen) => void; markStudied: (id: number) => void; tryMarkStudiedFromStats: () => void }) {
   const [open, setOpen] = useState<number | null>(null);
   const scrollRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (open !== null) {
-      markStudied(open);
       scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [open, markStudied]);
+  }, [open]);
+
+  // Урок засчитывается только по факту >=10 ответов, а не по раскрытию — для UX показываем прогресс
+  useEffect(() => { tryMarkStudiedFromStats(); }, [progress, tryMarkStudiedFromStats, open]);
 
   const times: Record<number, { h: number; m: number }> = {
     1: { h: 3, m: 0 },

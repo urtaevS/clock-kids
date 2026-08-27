@@ -70,10 +70,16 @@ export default function ResultsScreen({
       <section className="mt-4 rounded-blob bg-white p-5 shadow-[0_6px_0_#f0e7d6]">
         <h2 className="font-display text-base font-bold">Статистика</h2>
         <div className="mt-3 grid grid-cols-2 gap-2.5">
-          <div className="flex flex-col items-center rounded-2xl bg-sun-soft p-3">
-            <Star size={20} className="text-[#e0992b]" fill="#f5b73d" />
-            <p className="mt-1 font-display text-2xl font-bold text-[#e0992b]">{progress.stars}</p>
-            <p className="text-xs font-extrabold text-[#e0992b]/80">Звёзды</p>
+          <div className="relative col-span-2 flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FFF7CC] via-[#FFD84D] to-[#FFC21A] p-3.5 shadow-[0_4px_0_#F5C518]">
+            <div className="absolute inset-0 animate-star-shimmer bg-gradient-to-r from-transparent via-white/35 to-transparent bg-[length:220%_100%]" aria-hidden />
+            <div className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white shadow-[0_3px_0_rgba(0,0,0,0.12)]">
+              <Star size={26} className="animate-star-twinkle text-[#e0992b]" fill="#f5b73d" />
+            </div>
+            <div className="relative flex-1">
+              <p className="font-display text-2xl font-bold leading-none text-[#7a4d00]">{progress.stars}</p>
+              <p className="text-xs font-extrabold tracking-wide text-[#8a5a00]/80">Звёзды</p>
+            </div>
+            <span className="relative rounded-full bg-white/90 px-2.5 py-1 text-xs font-extrabold text-[#7a4d00]">⭐ всего</span>
           </div>
           <div className="flex flex-col items-center rounded-2xl bg-mint-soft p-3">
             <Target size={20} className="text-[#22a76b]" />
@@ -99,7 +105,7 @@ export default function ResultsScreen({
         </div>
         <div className="mt-4 grid grid-cols-3 gap-2">
           <div className="rounded-2xl bg-sky-soft p-3 text-center">
-            <p className="text-xs font-bold text-[#2e8fdb]">Прочитай</p>
+            <p className="text-xs font-bold text-[#2e8fdb]">Определи</p>
             <p className="font-display text-lg font-bold">{progress.skillStats.read.correct} / {progress.skillStats.read.total}</p>
           </div>
           <div className="rounded-2xl bg-grape-soft p-3 text-center">

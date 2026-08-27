@@ -36,6 +36,14 @@ export default {
           '0%': { opacity: '1', transform: 'translateY(0) scale(.6)' },
           '100%': { opacity: '0', transform: 'translateY(-90px) scale(1.6)' },
         },
+        'star-twinkle': {
+          '0%,100%': { transform: 'scale(1) rotate(0deg)', filter: 'brightness(1)' },
+          '50%': { transform: 'scale(1.18) rotate(12deg)', filter: 'brightness(1.25)' },
+        },
+        'star-shimmer': {
+          '0%': { backgroundPosition: '-120% 0' },
+          '100%': { backgroundPosition: '220% 0' },
+        },
         toast: {
           '0%': { opacity: '0', transform: 'translateY(-16px) scale(.95)' },
           '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
@@ -49,6 +57,8 @@ export default {
         wiggle: 'wiggle 2.2s ease-in-out infinite',
         shake: 'shake .4s ease-in-out',
         'star-rise': 'star-rise .9s ease-out forwards',
+        'star-twinkle': 'star-twinkle 1.6s ease-in-out infinite',
+        'star-shimmer': 'star-shimmer 2.2s linear infinite',
         toast: 'toast .3s ease-out both',
       },
     },

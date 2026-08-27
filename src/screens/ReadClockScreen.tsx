@@ -96,7 +96,7 @@ export default function ReadClockScreen({
         >
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
-        <h1 className="text-center font-display text-base font-bold">Прочитай время</h1>
+        <h1 className="text-center font-display text-base font-bold">Определи время</h1>
         <span aria-hidden className="h-12 w-12" />
       </div>
 

@@ -98,7 +98,7 @@ export function useProgress() {
     setProgress(prev => {
       const s = prev.skillStats[skill] ?? { correct: 0, total: 0 };
       const streak = correct ? prev.streak + 1 : 0;
-      return {
+      const next = {
         ...prev,
         stars: prev.stars + (correct ? 1 : 0),
         streak,
@@ -107,12 +107,41 @@ export function useProgress() {
         answersTotal: prev.answersTotal + 1,
         skillStats: { ...prev.skillStats, [skill]: { correct: s.correct + (correct ? 1 : 0), total: s.total + 1 } },
       };
+      // автозачёт уроков от 10 ответов
+      const needByLesson: Record<number, ClockSkill[]> = { 1: ['read'], 2: ['set'], 3: ['daypart'], 4: ['elapsed'] };
+      const toAdd: number[] = [];
+      for (const [k, skills] of Object.entries(needByLesson)) {
+        const id = Number(k);
+        if (next.studied.includes(id)) continue;
+        if (skills.every(ss => (next.skillStats[ss]?.total ?? 0) >= 10)) toAdd.push(id);
+      }
+      if (toAdd.length) next.studied = [...next.studied, ...toAdd].sort((a, b) => a - b);
+      return next;
     });
   }, []);
 
-  const markStudied = useCallback((id: number) => {
-    setProgress(prev => prev.studied.includes(id) ? prev : { ...prev, studied: [...prev.studied, id] });
+  const tryMarkStudiedFromStats = useCallback(() => {
+    setProgress(prev => {
+      const stats = prev.skillStats;
+      const needByLesson: Record<number, ClockSkill[]> = {
+        1: ['read'],
+        2: ['set'],
+        3: ['daypart'],
+        4: ['elapsed'],
+      };
+      const toAdd: number[] = [];
+      for (const [lessonIdStr, skills] of Object.entries(needByLesson)) {
+        const lessonId = Number(lessonIdStr);
+        if (prev.studied.includes(lessonId)) continue;
+        const ok = skills.every(s => (stats[s]?.total ?? 0) >= 10);
+        if (ok) toAdd.push(lessonId);
+      }
+      if (toAdd.length === 0) return prev;
+      return { ...prev, studied: [...prev.studied, ...toAdd].sort((a, b) => a - b) };
+    });
   }, []);
+
+  const markStudied = useCallback((_id: number) => {}, []);
 
   const finishTest = useCallback((score: number) => {
     setProgress(prev => ({ ...prev, stars: prev.stars + score, lastTest: score, bestTest: Math.max(prev.bestTest, score) }));
@@ -141,5 +170,5 @@ export function useProgress() {
     } catch { return false; }
   }, []);
 
-  return { progress, recordSkill, markStudied, finishTest, finishTimeAttack, resetProgress, importProgress, toast };
+  return { progress, recordSkill, markStudied, tryMarkStudiedFromStats, finishTest, finishTimeAttack, resetProgress, importProgress, toast };
 }

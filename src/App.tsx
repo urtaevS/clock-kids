@@ -6,6 +6,7 @@ import Decor from './components/Decor';
 import { useProgress } from './lib/progress';
 import HomeScreen from './screens/HomeScreen';
 import LearnScreen from './screens/LearnScreen';
+import TrainScreen from './screens/TrainScreen';
 import ReadClockScreen from './screens/ReadClockScreen';
 import SetClockScreen from './screens/SetClockScreen';
 import ElapsedScreen from './screens/ElapsedScreen';
@@ -18,7 +19,7 @@ import UpdateBanner from './components/UpdateBanner';
 import type { Screen } from './types';
 
 export default function App() {
-  const { progress, recordSkill, markStudied, finishTest, finishTimeAttack, resetProgress, importProgress, toast } = useProgress();
+  const { progress, recordSkill, tryMarkStudiedFromStats, markStudied, finishTest, finishTimeAttack, resetProgress, importProgress, toast } = useProgress();
   const [screen, setScreen] = useState<Screen>({ name: 'home' });
 
   useEffect(() => {
@@ -46,14 +47,14 @@ export default function App() {
   const onNavigate = (k: NavKey) => {
     if (k === 'home') go({ name: 'home' });
     else if (k === 'learn') go({ name: 'learn' });
-    else if (k === 'train') go({ name: 'read' });
+    else if (k === 'train') go({ name: 'train' });
     else go({ name: 'results' });
   };
 
   const active: NavKey | null =
     screen.name === 'home' ? 'home'
       : screen.name === 'learn' ? 'learn'
-      : screen.name === 'read' || screen.name === 'set' || screen.name === 'elapsed' || screen.name === 'convert' || screen.name === 'daypart' || screen.name === 'time-attack' || screen.name === 'test'
+      : screen.name === 'train' || screen.name === 'read' || screen.name === 'set' || screen.name === 'elapsed' || screen.name === 'convert' || screen.name === 'daypart' || screen.name === 'time-attack' || screen.name === 'test'
         ? 'train'
         : screen.name === 'results' ? 'results'
         : null;
@@ -70,7 +71,10 @@ export default function App() {
       view = <HomeScreen progress={progress} go={go} />;
       break;
     case 'learn':
-      view = <LearnScreen progress={progress} go={go} markStudied={markStudied} />;
+      view = <LearnScreen progress={progress} go={go} markStudied={markStudied} tryMarkStudiedFromStats={tryMarkStudiedFromStats} />;
+      break;
+    case 'train':
+      view = <TrainScreen recordSkill={recordSkill} go={go} />;
       break;
     case 'read':
       view = <ReadClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} />;

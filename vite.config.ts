@@ -9,6 +9,7 @@ export default defineConfig({
     host: true, // expose on the local network (0.0.0.0), not just localhost
     port: 5174,
     strictPort: false,
+    hmr: { overlay: false },
   },
   preview: {
     host: true, // same for the production preview server

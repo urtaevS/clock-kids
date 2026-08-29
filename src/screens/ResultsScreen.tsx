@@ -5,6 +5,13 @@ import { Icon } from '../lib/icons';
 import type { Progress, Screen } from '../types';
 import { ACHIEVEMENTS } from '../lib/achievements';
 
+function pluralStar(n: number): string {
+  const mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${n} Звезда`;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return `${n} Звезды`;
+  return `${n} Звёзд`;
+}
+
 export default function ResultsScreen({
   progress,
   go,
@@ -61,7 +68,7 @@ export default function ResultsScreen({
         </button>
         <h1 className="flex-1 text-center font-display text-base font-bold">Мои результаты</h1>
         <span className="flex items-center gap-1 rounded-full bg-sun-soft px-3 py-1.5 text-sm font-extrabold text-[#e0992b] shadow-[0_3px_0_#f0e7d6]">
-          <Star size={16} fill="#f5b73d" /> {progress.stars}
+          <Star size={16} fill="#f5b73d" className="animate-star-twinkle" /> {progress.stars}
         </span>
       </div>
 
@@ -75,11 +82,10 @@ export default function ResultsScreen({
             <div className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white shadow-[0_3px_0_rgba(0,0,0,0.12)]">
               <Star size={26} className="animate-star-twinkle text-[#e0992b]" fill="#f5b73d" />
             </div>
-            <div className="relative flex-1">
+            <div className="relative flex flex-1 items-center justify-end gap-2">
               <p className="font-display text-2xl font-bold leading-none text-[#7a4d00]">{progress.stars}</p>
-              <p className="text-xs font-extrabold tracking-wide text-[#8a5a00]/80">Звёзды</p>
+              <p className="text-sm font-extrabold text-[#7a4d00]">{pluralStar(progress.stars).split(' ').slice(1).join(' ')}</p>
             </div>
-            <span className="relative rounded-full bg-white/90 px-2.5 py-1 text-xs font-extrabold text-[#7a4d00]">⭐ всего</span>
           </div>
           <div className="flex flex-col items-center rounded-2xl bg-mint-soft p-3">
             <Target size={20} className="text-[#22a76b]" />

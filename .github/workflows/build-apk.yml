@@ -26,10 +26,22 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      - name: Derive version for build (tag or package.json)
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then VER="${GITHUB_REF#refs/tags/v}";
+          else VER=$(node -p "require('./package.json').version"); fi
+          IFS='.' read -r MA MI PA <<< "$VER"
+          CODE=$(( ${MA:-0}*10000 + ${MI:-0}*100 + ${PA:-0} ))
+          [ "$CODE" -eq 0 ] && CODE=1
+          echo "VERSION_NAME=$VER" >> "$GITHUB_ENV"
+          echo "VERSION_CODE=$CODE" >> "$GITHUB_ENV"
+          echo "APP_VERSION=$VER" >> "$GITHUB_ENV"
+          echo "Version $VER code $CODE"
+
       - name: Build web app
         run: npm run build
         env:
-          APP_VERSION: ${{ env.VERSION_NAME || '' }}
+          APP_VERSION: ${{ env.APP_VERSION }}
 
       - name: Copy web build into Android assets
         run: |
@@ -56,11 +68,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
-      - name: Derive version from tag
+      - name: Derive version from tag (fallback if already set)
         if: startsWith(github.ref, 'refs/tags/')
         run: |
+          if [ -n "${VERSION_NAME:-}" ]; then echo "Already $VERSION_NAME code $VERSION_CODE"; exit 0; fi
           TAG="${GITHUB_REF#refs/tags/}"
-          # v1.0.3 -> 1.0.3 ; code = major*10000 + minor*100 + patch (monotonic)
           VER="${TAG#v}"
           IFS='.' read -r MA MI PA <<< "$VER"
           CODE=$(( ${MA:-0}*10000 + ${MI:-0}*100 + ${PA:-0} ))
@@ -108,8 +120,8 @@ jobs:
             echo "$LOG" | sed 's/^/- /' | sed 's/^- - /- /' | sed 's/^-- /- /'
             echo ""
             echo "### Скачать"
-            echo "- **Android APK:** \`app-debug.apk\` ниже — установка поверх `v1.0.4+` сохраняет прогресс"
-            echo "- **Web/PWA:** https://urtaevs.github.io/mult-table-kids/"
+            echo "- **Android APK:** \`app-debug.apk\` ниже — установка поверх текущего сохраняет прогресс"
+            echo "- **Web/PWA:** https://urtaevs.github.io/clock-kids/"
             echo ""
             echo "> Не удаляй приложение перед обновлением — только «Обновить» поверх."
           } > /tmp/notes.md

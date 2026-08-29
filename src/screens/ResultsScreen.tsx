@@ -83,8 +83,8 @@ export default function ResultsScreen({
               <Star size={26} className="animate-star-twinkle text-[#e0992b]" fill="#f5b73d" />
             </div>
             <div className="relative flex flex-1 items-center justify-end gap-2">
-              <p className="font-display text-2xl font-bold leading-none text-[#7a4d00]">{progress.stars}</p>
-              <p className="text-sm font-extrabold text-[#7a4d00]">{pluralStar(progress.stars).split(' ').slice(1).join(' ')}</p>
+              <p className="font-display text-3xl font-bold leading-none text-[#7a4d00]">{progress.stars}</p>
+              <p className="text-base font-extrabold text-[#7a4d00]">{pluralStar(progress.stars).split(' ').slice(1).join(' ')}</p>
             </div>
           </div>
           <div className="flex flex-col items-center rounded-2xl bg-mint-soft p-3">
@@ -171,6 +171,7 @@ export default function ResultsScreen({
         >
           Сбросить прогресс
         </BigButton>
+        <p className="text-center text-xs font-bold text-[#b8a9c8]">v{__APP_VERSION__}</p>
       </div>
     </main>
   );

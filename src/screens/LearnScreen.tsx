@@ -6,8 +6,8 @@ import type { Screen, Progress } from '../types';
 
 const LESSONS = [
   { id: 1, icon: '1', title: 'Две стрелки-друга 🤝', color: 'bg-sky-soft', text: 'На часах 12 цифр по кругу.\n\n🟠 Короткая толстая — показывает ЧАСЫ (двигается медленно).\n🔵 Длинная тонкая — показывает МИНУТЫ (двигается быстрее).' },
-  { id: 2, icon: '2', title: 'Четверть и половина 🍕', color: 'bg-mint-soft', text: 'Каждое деление = 5 минут.\n\nЕсли:\n• Длинная на 12 → ровно (2:00)\n• На 3 → пятнадцать минут = 15 мин (2:15)\n• На 6 → половина = 30 мин (2:30)\n• На 9 → без пятнадцати = 45 мин (2:45)' },
-  { id: 3, icon: '3', title: 'Утро и вечер 🌞🌙', color: 'bg-candy-soft', text: 'За день короткая стрелка проходит циферблат два раза!\n\n🌞 Утром: 7:00 — идём в школу\n🌙 Вечером: 19:00 — те же 7 часов, только вечера.\n\n13:00 = 1 час дня, 20:00 = 8 вечера. Просто отними 12!' },
+  { id: 2, icon: '2', title: 'Четверть и половина 🍕', color: 'bg-mint-soft', text: 'Если:\n• Длинная на 12 → ровно (2:00)\n• На 3 → пятнадцать минут = 15 мин (2:15)\n• На 6 → половина = 30 мин (2:30)\n• На 9 → без пятнадцати = 45 мин (2:45)' },
+  { id: 3, icon: '3', title: 'Утро и вечер 🌞🌙', color: 'bg-candy-soft', text: '🌞 Утром: 7:00 — идём в школу\n🌙 Вечером: 19:00 — те же 7 часов, только вечера.\n⏰ 13:00 = 1 час дня, 20:00 = 8 вечера.\nПросто отними 12!' },
   { id: 4, icon: '4', title: 'Сколько прошло? ⏳', color: 'bg-grape-soft', text: 'Смотри на часы и считай.\n\nБыло 9:15 — стало 10:45.\nСначала часы: 9 → 10 = 1 час.\nПотом минуты: 15 → 45 = 30 мин.\n\nИтого: 1 ч 30 мин — целый мультик!' },
 ];
 
@@ -33,18 +33,18 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
 
   return (
     <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
-      <button
-        type="button"
-        onClick={() => go({ name: 'home' })}
-        className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5"
-      >
-        <ArrowLeft size={24} strokeWidth={2.8} />
-      </button>
-
-      <header className="mt-4 text-center">
-        <h1 className="font-display text-2xl font-bold">Изучаем время</h1>
-        <p className="mt-1 text-[15px] font-extrabold text-[#8d84a3]">Нажми на карточку👇 — там живой пример!</p>
-      </header>
+      <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
+        <button
+          type="button"
+          onClick={() => go({ name: 'home' })}
+          className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5"
+        >
+          <ArrowLeft size={24} strokeWidth={2.8} />
+        </button>
+        <h1 className="text-center font-display text-2xl font-bold">Изучаем время</h1>
+        <span aria-hidden className="h-12 w-12" />
+      </div>
+      <p className="mt-2 text-center text-[15px] font-extrabold text-[#8d84a3]">Нажми на карточку👇 — там живой пример!</p>
 
       <div className="mt-5 space-y-3">
         {LESSONS.map((l) => {
@@ -56,7 +56,7 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
               ref={isOpen ? scrollRef : null}
               type="button"
               onClick={() => setOpen(isOpen ? null : l.id)}
-              className={`w-full rounded-blob p-4 text-left shadow-[0_6px_0_#f0e7d6] ${l.color} transition active:scale-[0.98]`}
+              className={`group w-full rounded-blob p-4 text-left shadow-[0_6px_0_#f0e7d6] ${l.color} transition active:scale-[0.98]`}
             >
               <div className="flex items-center gap-3">
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl font-bold">{l.icon}</span>
@@ -79,18 +79,7 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
                           </span>
                         </div>
                       ))}
-                      {(() => {
-                        const a = LESSON_EXAMPLES[4][0], b = LESSON_EXAMPLES[4][1];
-                        const dh = b.h - a.h + (b.m < a.m ? -1 : 0);
-                        const dm = (b.m - a.m + 60) % 60;
-                        const label = dm === 0 ? `${dh} ч` : dh === 0 ? `${dm} мин` : `${dh} ч ${dm} мин`;
-                        return (
-                          <div className="flex flex-col items-center gap-1">
-                            <span className="text-lg font-extrabold text-[#8d84a3]">→</span>
-                            <span className="rounded-full bg-mint px-2.5 py-1 text-xs font-extrabold text-white">{label}</span>
-                          </div>
-                        );
-                      })()}
+
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 gap-3">
@@ -104,10 +93,21 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
                       ))}
                     </div>
                   )}
+                  {l.id === 4 && (() => {
+                    const a = LESSON_EXAMPLES[4][0], b = LESSON_EXAMPLES[4][1];
+                    const dh = b.h - a.h + (b.m < a.m ? -1 : 0);
+                    const dm = (b.m - a.m + 60) % 60;
+                    const ans = dm === 0 ? `${dh} ч` : dh === 0 ? `${dm} мин` : `${dh} ч ${dm} мин`;
+                    return (
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <span className="rounded-full bg-mint px-2.5 py-1 text-xs font-extrabold text-white">{ans}</span>
+                      </div>
+                    );
+                  })()}
                   <div className="mt-3 flex items-center justify-center gap-2" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                     <BigButton
                       color="sun"
-                      className="h-11 w-full rounded-3xl text-sm"
+                      className="h-11 w-full text-sm"
                       onClick={() => {
                         if (l.id === 1) go({ name: 'read' });
                         else if (l.id === 2) go({ name: 'set' });

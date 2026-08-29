@@ -1,4 +1,4 @@
-package com.akira.multtable;
+package com.akira.kidsclock;
 
 import com.getcapacitor.BridgeActivity;
 

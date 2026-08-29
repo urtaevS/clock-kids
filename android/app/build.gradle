@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.akira.multtable"
+    namespace = "com.akira.kidsclock"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.akira.multtable"
+        applicationId "com.akira.kidsclock"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode (project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 4)

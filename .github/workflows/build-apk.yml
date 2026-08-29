@@ -96,12 +96,17 @@ jobs:
           echo "GRADLE_EXIT=$EXIT" >> "$GITHUB_ENV"
           exit $EXIT
 
+      - name: Rename APK to kids-clock
+        if: success()
+        run: |
+          mv android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/kids-clock.apk
+
       - name: Upload Debug APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          name: kids-clock-apk
+          path: android/app/build/outputs/apk/debug/kids-clock.apk
           if-no-files-found: error
 
       - name: Generate release notes
@@ -136,7 +141,7 @@ jobs:
         with:
           name: ${{ github.ref_name }}
           body: ${{ steps.notes.outputs.notes }}
-          files: android/app/build/outputs/apk/debug/*.apk
+          files: android/app/build/outputs/apk/debug/kids-clock.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

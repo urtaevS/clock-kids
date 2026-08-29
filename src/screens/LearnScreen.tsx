@@ -8,7 +8,7 @@ const LESSONS = [
   { id: 1, icon: '1', title: 'Две стрелки-друга 🤝', color: 'bg-sky-soft', text: 'На часах 12 цифр по кругу.\n\n🟠 Короткая толстая — показывает ЧАСЫ (двигается медленно).\n🔵 Длинная тонкая — показывает МИНУТЫ (двигается быстрее).' },
   { id: 2, icon: '2', title: 'Четверть и половина 🍕', color: 'bg-mint-soft', text: 'Каждое деление = 5 минут.\n\nЕсли:\n• Длинная на 12 → ровно (2:00)\n• На 3 → пятнадцать минут = 15 мин (2:15)\n• На 6 → половина = 30 мин (2:30)\n• На 9 → без пятнадцати = 45 мин (2:45)' },
   { id: 3, icon: '3', title: 'Утро и вечер 🌞🌙', color: 'bg-candy-soft', text: 'За день короткая стрелка проходит циферблат два раза!\n\n🌞 Утром: 7:00 — идём в школу\n🌙 Вечером: 19:00 — те же 7 часов, только вечера.\n\n13:00 = 1 час дня, 20:00 = 8 вечера. Просто отними 12!' },
-  { id: 4, icon: '4', title: 'Сколько прошло? ⏳', color: 'bg-grape-soft', text: 'Смотри на двое часов и считай.\n\nБыло 9:15 — стало 10:45.\nСначала часы: 9 → 10 = 1 час.\nПотом минуты: 15 → 45 = 30 мин.\n\nИтого: 1 ч 30 мин — целый мультик!' },
+  { id: 4, icon: '4', title: 'Сколько прошло? ⏳', color: 'bg-grape-soft', text: 'Смотри на часы и считай.\n\nБыло 9:15 — стало 10:45.\nСначала часы: 9 → 10 = 1 час.\nПотом минуты: 15 → 45 = 30 мин.\n\nИтого: 1 ч 30 мин — целый мультик!' },
 ];
 
 export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedFromStats }: { progress: Progress; go: (s: Screen) => void; markStudied: (id: number) => void; tryMarkStudiedFromStats: () => void }) {
@@ -104,10 +104,10 @@ export default function LearnScreen({ progress, go, markStudied, tryMarkStudiedF
                       ))}
                     </div>
                   )}
-                  <div className="mt-3" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                  <div className="mt-3 flex items-center justify-center gap-2" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                     <BigButton
                       color="sun"
-                      className="h-11 w-full text-sm"
+                      className="h-11 w-full rounded-3xl text-sm"
                       onClick={() => {
                         if (l.id === 1) go({ name: 'read' });
                         else if (l.id === 2) go({ name: 'set' });

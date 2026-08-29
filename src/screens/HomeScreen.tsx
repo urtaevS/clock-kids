@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Icon } from '../lib/icons';
 import { iconBg } from '../lib/theme';
-import BigButton, { type ChunkyColor } from '../components/BigButton';
+import LegoButton from '../components/LegoButton';
+import type { ChunkyColor } from '../components/BigButton';
 import Mascot from '../components/Mascot';
 import ProgressBar from '../components/ProgressBar';
 import type { Progress, Screen } from '../types';
@@ -51,22 +52,22 @@ export default function HomeScreen({ progress, go }: { progress: Progress; go: (
 
       <div className="mt-3 space-y-3">
         {ACTIONS.slice(0, 5).map((a, i) => (
-          <BigButton
+          <LegoButton
             key={a.label}
             color={a.color}
             onClick={() => go(a.to)}
-            className="animate-pop-in flex h-[68px] w-full items-center gap-3 px-4 text-left"
-            style={{ animationDelay: `${i * 60}ms` }}
+            className="animate-pop-in h-[74px] w-full px-4 text-left"
+            style={{ animationDelay: `${i * 60}ms` } as React.CSSProperties}
           >
             <span className={`grid h-11 w-11 place-items-center rounded-2xl ${iconBg(a.icon)}`}>
               <Icon name={a.icon} size={20} />
             </span>
-            <span className="flex-1">
+            <span className="flex-1 text-left">
               <span className="block text-[17px] font-extrabold leading-none">{a.label}</span>
               {a.sub && <span className="block text-xs font-bold opacity-80">{a.sub}</span>}
             </span>
             <ChevronRight className="ml-auto opacity-70" size={24} strokeWidth={3} />
-          </BigButton>
+          </LegoButton>
         ))}
       </div>
 
@@ -78,22 +79,22 @@ export default function HomeScreen({ progress, go }: { progress: Progress; go: (
 
       <div className="space-y-3">
         {ACTIONS.slice(5).map((a, i) => (
-          <BigButton
+          <LegoButton
             key={a.label}
             color={a.color}
             onClick={() => go(a.to)}
-            className="animate-pop-in flex h-[68px] w-full items-center gap-3 px-4 text-left"
-            style={{ animationDelay: `${(i + 5) * 60}ms` }}
+            className="animate-pop-in h-[74px] w-full px-4 text-left"
+            style={{ animationDelay: `${(i + 5) * 60}ms` } as React.CSSProperties}
           >
             <span className={`grid h-11 w-11 place-items-center rounded-2xl ${iconBg(a.icon)}`}>
               <Icon name={a.icon} size={20} />
             </span>
-            <span className="flex-1">
+            <span className="flex-1 text-left">
               <span className="block text-[17px] font-extrabold leading-none">{a.label}</span>
               {a.sub && <span className="block text-xs font-bold opacity-80">{a.sub}</span>}
             </span>
             <ChevronRight className="ml-auto opacity-70" size={24} strokeWidth={3} />
-          </BigButton>
+          </LegoButton>
         ))}
       </div>
 

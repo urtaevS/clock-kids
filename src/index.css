@@ -18,3 +18,96 @@
   100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(.3); opacity: 0; }
 }
 .confetti-piece { animation: confetti-burst .85s cubic-bezier(.2, .85, .35, 1) both; }
+
+/* LegoButton — 1:1 как в пене MisterCurtis, паттерн ровно заполняет кнопку без обрезки снизу */
+.lego-brick {
+  --lego-peg: 15px;
+  --lego-wall: 6px;
+  --lego-square: calc(var(--lego-peg) + var(--lego-wall) * 2);
+  color: var(--lego-text, #fff) !important;
+  background-color: var(--lego-bg, #FFC53D) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: var(--lego-wall) !important;
+  min-width: var(--lego-square);
+  min-height: 74px;
+  overflow: hidden !important;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.20), inset 1px 1px 0 rgba(255,255,255,.18) !important;
+  background-image:
+    radial-gradient(var(--lego-bg, #FFC53D) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(255,255,255,.60) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(0,0,0,.18) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2)),
+    radial-gradient(rgba(0,0,0,.18) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2));
+  background-size: var(--lego-square) var(--lego-square);
+  background-position: 0 0, -0.5px -0.5px, 0 0, calc(var(--lego-wall) / 2) calc(var(--lego-wall) / 2);
+  background-repeat: round;
+  background-clip: padding-box;
+  position: relative;
+}
+.lego-brick:active {
+  transform: translateY(2px);
+  filter: brightness(0.96);
+}
+.lego-studs { display: none !important; }
+.lego-stud { display: none !important; }
+.lego-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  backdrop-filter: blur(1px);
+}
+
+/* Универсальный LEGO-паттерн для всех кнопок */
+.lego-surface {
+  --lego-peg: 15px;
+  --lego-wall: 6px;
+  --lego-square: calc(var(--lego-peg) + var(--lego-wall) * 2);
+  background-color: var(--lego-bg, #fff) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.20), inset 1px 1px 0 rgba(255,255,255,.18) !important;
+  background-image:
+    radial-gradient(var(--lego-bg, #fff) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(255,255,255,.60) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(0,0,0,.18) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2)),
+    radial-gradient(rgba(0,0,0,.18) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2));
+  background-size: var(--lego-square) var(--lego-square);
+  background-position: 0 0, -0.5px -0.5px, 0 0, calc(var(--lego-wall) / 2) calc(var(--lego-wall) / 2);
+  background-repeat: round;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden !important;
+}
+.lego-surface:active {
+  transform: translateY(2px);
+  filter: brightness(0.96);
+}
+.lego-opt {
+  --lego-peg: 15px;
+  --lego-wall: 6px;
+  border-radius: 16px !important;
+  min-height: 52px;
+  /* переопределяем .lego-surface: нужен свой фон+градиенты с правильными переменными */
+  background-color: var(--lego-bg) !important;
+  border: none !important;
+  box-shadow: inset -1px -1px 0 rgba(0,0,0,.14), inset 1px 1px 0 rgba(255,255,255,.22) !important;
+  background-image:
+    radial-gradient(var(--lego-bg) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(255,255,255,.60) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + 1px)),
+    radial-gradient(rgba(0,0,0,.14) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2)),
+    radial-gradient(rgba(0,0,0,.14) calc(var(--lego-peg) / 2), transparent calc(var(--lego-peg) / 2 + var(--lego-wall) / 2)) !important;
+  background-size: var(--lego-square) var(--lego-square) !important;
+  background-position: 0 0, -0.5px -0.5px, 0 0, calc(var(--lego-wall) / 2) calc(var(--lego-wall) / 2) !important;
+  background-repeat: round !important;
+  background-clip: padding-box !important;
+}
+.lego-opt-sky   { --lego-bg: #DDEEFF !important; }
+.lego-opt-sun   { --lego-bg: #FFF0C7 !important; }
+.lego-opt-candy { --lego-bg: #FFE4EE !important; }
+.lego-opt-grape { --lego-bg: #ECE4FF !important; }

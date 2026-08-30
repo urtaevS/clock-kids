@@ -1,4 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { Award } from 'lucide-react';
 import BottomNav, { type NavKey } from './components/BottomNav';
 import { initSounds, playBg } from './lib/sounds';
@@ -37,6 +39,17 @@ export default function App() {
       window.removeEventListener('pointerdown', kick);
       window.removeEventListener('keydown', kick);
     };
+  }, []);
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+    void (async () => {
+      try {
+        await StatusBar.setOverlaysWebView({ overlay: false });
+        await StatusBar.setStyle({ style: Style.Light });
+        await StatusBar.setBackgroundColor({ color: '#FFF8EC' });
+      } catch { /* not on native */ }
+    })();
   }, []);
 
   const go = (s: Screen) => {

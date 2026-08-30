@@ -32,7 +32,7 @@ export default function HomeScreen({ progress, go }: { progress: Progress; go: (
   const acc = progress.answersTotal ? Math.round((progress.answersCorrect / progress.answersTotal) * 100) : null;
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-6">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-2">
       <div className="flex justify-center">
         <Mascot message={greeting} />
       </div>

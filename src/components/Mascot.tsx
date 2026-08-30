@@ -1,24 +1,29 @@
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import type { DotLottie } from '@lottiefiles/dotlottie-react';
 import { useEffect, useState } from 'react';
 
-const CLOCK_CYCLE = ['⏰', '🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛'];
+export default function Mascot({ message, className = '' }: { message?: string; className?: string }) {
+  const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
 
-export default function Mascot({ message, emoji, className = '' }: { message?: string; emoji?: string; className?: string }) {
-  const [tick, setTick] = useState(0);
-  const cycling = emoji === '⏰';
   useEffect(() => {
-    if (!cycling) return;
-    const id = window.setInterval(() => setTick(t => (t + 1) % CLOCK_CYCLE.length), 1000);
-    return () => window.clearInterval(id);
-  }, [cycling]);
-
-  const content = cycling ? CLOCK_CYCLE[tick] : (
-    <img src="/mascot.svg" alt="Маскот" className="h-[68px] w-[68px] object-contain" />
-  );
+    if (!dotLottie) return;
+    const onComplete = () => {
+      dotLottie.pause();
+      setTimeout(() => dotLottie.play(), 3000);
+    };
+    dotLottie.addEventListener('complete', onComplete);
+    return () => dotLottie.removeEventListener('complete', onComplete);
+  }, [dotLottie]);
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <div aria-hidden className="text-7xl mt-2">
-        <span className="inline-block origin-center">{content}</span>
+      <div aria-hidden className="h-[68px] w-[68px] shrink-0">
+        <DotLottieReact
+          src="/mascot.json"
+          autoplay
+          dotLottieRefCallback={setDotLottie}
+          className="h-[68px] w-[68px]"
+        />
       </div>
       {message && (
         <div className="animate-pop-in relative rounded-2xl rounded-bl-md bg-white px-4 py-2.5 font-extrabold shadow-[0_4px_0_#ece3d2]">

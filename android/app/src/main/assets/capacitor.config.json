@@ -1,5 +1,12 @@
 {
-	"appId": "com.akira.clockkids",
+	"appId": "com.akira.kidsclock",
 	"appName": "Часики — учим время",
-	"webDir": "dist"
+	"webDir": "dist",
+	"plugins": {
+		"StatusBar": {
+			"overlaysWebView": false,
+			"style": "LIGHT",
+			"backgroundColor": "#FFF8EC"
+		}
+	}
 }

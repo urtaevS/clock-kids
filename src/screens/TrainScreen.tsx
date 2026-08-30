@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
-import Mascot from '../components/Mascot';
+import OwlMascot from '../components/OwlMascot';
 import { formatDigital, makeReadQuestion, makeSetQuestion, sameTime } from '../lib/clock';
 import { makeElapsedQuestion, makeConvertQuestion } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
@@ -102,7 +102,7 @@ export default function TrainScreen({ recordSkill, go }: { recordSkill: (s: Cloc
       playCorrect();
       setPhase('correct');
       setBurst(b => b + 1);
-      timer.current = window.setTimeout(next, 1100);
+      timer.current = window.setTimeout(next, 3000);
     } else {
       playWrong();
       setPhase('wrong');
@@ -258,7 +258,7 @@ export default function TrainScreen({ recordSkill, go }: { recordSkill: (s: Cloc
       )}
 
       <div className="mt-6 flex justify-center">
-        <Mascot emoji={phase === 'correct' ? '😄' : phase === 'wrong' ? '😢' : '⏰'} message={phase === 'correct' ? 'Супер!' : phase === 'wrong' ? 'Попробуй ещё!' : 'Выбери ответ'} />
+        <OwlMascot play={phase === 'correct'} message={phase === 'correct' ? 'Супер!' : phase === 'wrong' ? 'Попробуй ещё!' : 'Выбери ответ'} />
       </div>
     </main>
   );

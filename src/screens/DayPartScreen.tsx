@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
-import Mascot from '../components/Mascot';
+import OwlMascot from '../components/OwlMascot';
 import { formatDigital } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
 import { playCorrect, playWrong } from '../lib/sounds';
@@ -69,7 +69,7 @@ export default function DayPartScreen({ recordSkill, go }: { recordSkill: (s: Cl
       setPhase('correct');
       setBurst(b => b + 1);
       setMsg(PRAISE[Math.floor(Math.random() * PRAISE.length)]);
-      timer.current = window.setTimeout(next, 1100);
+      timer.current = window.setTimeout(next, 3000);
     } else {
       setPhase('wrong');
       setPicked(opt);
@@ -129,7 +129,7 @@ export default function DayPartScreen({ recordSkill, go }: { recordSkill: (s: Cl
       )}
 
       <div className="mt-6 flex justify-center">
-        <Mascot emoji={phase === 'correct' ? '😄' : phase === 'wrong' ? '😢' : '⏰'} message={msg} />
+        <OwlMascot play={phase === 'correct'} message={msg} />
       </div>
     </main>
   );

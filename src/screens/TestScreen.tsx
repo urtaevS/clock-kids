@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AnalogClock from '../components/AnalogClock';
+import OwlMascot from '../components/OwlMascot';
 import BigButton from '../components/BigButton';
 import { makeReadQuestion, makeElapsedQuestion, makeConvertQuestion, formatDigital } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
@@ -65,7 +66,7 @@ export default function TestScreen({
         setPhase('ask');
         setPicked(null);
       }
-    }, ok ? 700 : 1200);
+    }, ok ? 3000 : 1200);
   };
 
   if (done) {
@@ -127,14 +128,14 @@ export default function TestScreen({
         {q.kind === 'elapsed' && (
           <>
             <p className="text-sm font-extrabold text-[#8d84a3]">Сколько прошло?</p>
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <div className="rounded-2xl bg-paper p-2">
-                <AnalogClock time={q.start} size={110} />
-                <p className="mt-1 font-bold">{formatDigital(q.start)}</p>
+            <div className="mt-3 flex justify-center gap-3">
+              <div className="rounded-2xl bg-paper px-3 py-2 text-center">
+                <p className="font-display text-sm font-bold text-[#8d84a3]">{formatDigital(q.start)}</p>
+                <div className="mt-1 flex justify-center"><AnalogClock time={q.start} size={130} /></div>
               </div>
-              <div className="rounded-2xl bg-paper p-2">
-                <AnalogClock time={q.end} size={110} />
-                <p className="mt-1 font-bold">{formatDigital(q.end)}</p>
+              <div className="rounded-2xl bg-paper px-3 py-2 text-center">
+                <p className="font-display text-sm font-bold text-[#8d84a3]">{formatDigital(q.end)}</p>
+                <div className="mt-1 flex justify-center"><AnalogClock time={q.end} size={130} /></div>
               </div>
             </div>
           </>
@@ -164,6 +165,9 @@ export default function TestScreen({
         })}
       </div>
       {phase === 'wrong' && <p className="mt-4 text-center text-sm font-extrabold text-mint-dark">Правильно: {q.answer}</p>}
+      <div className="mt-6 flex justify-center">
+        <OwlMascot play={phase === 'correct'} message={phase === 'correct' ? 'Верно!' : 'Выбери ответ'} />
+      </div>
     </main>
   );
 }

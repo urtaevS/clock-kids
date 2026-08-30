@@ -9,7 +9,10 @@
     background-image: radial-gradient(#f1e6cf 1.3px, transparent 1.3px);
     background-size: 24px 24px;
     overscroll-behavior-y: none;
+    /* Android edge-to-edge: keep content below status bar when not overlaid */
+    padding-top: env(safe-area-inset-top, 0px);
   }
+  #root { min-height: 100dvh; }
   button { touch-action: manipulation; }
 }
 

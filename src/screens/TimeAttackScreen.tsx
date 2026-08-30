@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import AnalogClock from '../components/AnalogClock';
+import OwlMascot from '../components/OwlMascot';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
 import { formatDigital, makeElapsedQuestion, makeReadQuestion } from '../lib/clock';
@@ -24,7 +25,7 @@ function genQA(d: TimeDifficulty): QAType {
     return { start: e.start, end: e.end, answer: e.answer, options: e.options, isElapsed: true };
   }
   const r = makeReadQuestion(d);
-  return { time: r.time, answer: r.answer, options: r.options };
+  return { time: r.time, answer: r.answer, options: r.options, isElapsed: false as const };
 }
 
 export default function TimeAttackScreen({
@@ -106,7 +107,7 @@ export default function TimeAttackScreen({
         setFb('ask');
         setPicked(null);
       },
-      ok ? 450 : 900,
+      ok ? 3000 : 900,
     );
   };
 
@@ -194,14 +195,14 @@ export default function TimeAttackScreen({
         {isElapsed ? (
           <>
             <p className="text-xs font-extrabold text-[#8d84a3]">Сколько прошло?</p>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className="rounded-2xl bg-paper p-2">
-                <AnalogClock time={(q as QAElapsed).start} size={110} />
-                <p className="mt-1 text-xs font-bold">{formatDigital((q as QAElapsed).start)}</p>
+            <div className="mt-2 flex justify-center gap-3">
+              <div className="rounded-2xl bg-paper px-3 py-2 text-center">
+                <p className="font-display text-xs font-bold text-[#8d84a3]">{formatDigital((q as QAElapsed).start)}</p>
+                <div className="mt-1 flex justify-center"><AnalogClock time={(q as QAElapsed).start} size={130} /></div>
               </div>
-              <div className="rounded-2xl bg-paper p-2">
-                <AnalogClock time={(q as QAElapsed).end} size={110} />
-                <p className="mt-1 text-xs font-bold">{formatDigital((q as QAElapsed).end)}</p>
+              <div className="rounded-2xl bg-paper px-3 py-2 text-center">
+                <p className="font-display text-xs font-bold text-[#8d84a3]">{formatDigital((q as QAElapsed).end)}</p>
+                <div className="mt-1 flex justify-center"><AnalogClock time={(q as QAElapsed).end} size={130} /></div>
               </div>
             </div>
           </>
@@ -215,6 +216,9 @@ export default function TimeAttackScreen({
         )}
       </div>
       <Confetti burst={burst} />
+      <div className="mt-4 flex justify-center">
+        <OwlMascot play={fb === 'ok'} message={fb === 'ok' ? 'Верно! ✅' : fb === 'bad' ? 'Подумай ещё' : 'Поехали!'} />
+      </div>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {q?.options.map((opt, i) => {
           let cls = OPT_STYLES[i];

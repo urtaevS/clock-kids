@@ -100,7 +100,13 @@ jobs:
       - name: Rename APK to kids-clock
         if: success()
         run: |
-          mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/kids-clock.apk
+          # Find any .apk in release folder (could be app-release.apk or app-release-unsigned.apk)
+          APK_PATH=$(find android/app/build/outputs/apk/release -maxdepth 1 -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "No APK found in release folder!"
+            exit 1
+          fi
+          mv "$APK_PATH" android/app/build/outputs/apk/release/kids-clock.apk
 
       - name: Upload Debug APK
         if: success()

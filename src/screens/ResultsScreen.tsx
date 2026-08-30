@@ -28,14 +28,23 @@ export default function ResultsScreen({
   const acc = progress.answersTotal ? Math.round((progress.answersCorrect / progress.answersTotal) * 100) : 0;
 
   const exportData = () => {
-    const raw = JSON.stringify(progress, null, 2);
-    const blob = new Blob([raw], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'chasy-progress.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    try {
+      const raw = JSON.stringify(progress, null, 2);
+      const blob = new Blob([raw], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'chasy-progress.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setMsg('Файл сохранён');
+      setTimeout(() => setMsg(null), 2500);
+    } catch {
+      setMsg('Не удалось сохранить');
+      setTimeout(() => setMsg(null), 2500);
+    }
   };
 
   const onImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {

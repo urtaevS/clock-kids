@@ -39,13 +39,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            // Применяем релизную подпись к debug-сборке, если есть секреты
-            def ksB64 = System.getenv('ANDROID_KEYSTORE_BASE64')
-            if (ksB64 && System.getenv('KEYSTORE_PASSWORD')) {
+            if (project.hasProperty('signingConfigs') && signingConfigs.hasProperty('release')) {
                 signingConfig signingConfigs.release
             }
+        }
+        debug {
+            // debug-сборка остаётся без подписи или можно тоже подписать, но необязательно
         }
     }
 }

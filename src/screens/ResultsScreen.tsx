@@ -171,7 +171,7 @@ export default function ResultsScreen({
         >
           Сбросить прогресс
         </BigButton>
-        <p className="text-center text-xs font-bold text-[#b8a9c8]">v{__APP_VERSION__} · APK и сайт — одна версия</p>
+        <p className="text-center text-xs font-bold text-[#b8a9c8]">v{__APP_VERSION__}</p>
       </div>
     </main>
   );

@@ -57,11 +57,9 @@ export default function ResultsScreen({
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'chasy-progress.json';
-      document.body.appendChild(a);
+      a.download = `chasy-progress-${new Date().toISOString().slice(0,10)}.json`;
       a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      URL.revokeObjectURL(url);
       setMsg('Файл сохранён');
       setTimeout(() => setMsg(null), 2500);
     } catch {

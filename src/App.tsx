@@ -87,22 +87,22 @@ export default function App() {
       view = <LearnScreen progress={progress} go={go} markStudied={markStudied} tryMarkStudiedFromStats={tryMarkStudiedFromStats} />;
       break;
     case 'train':
-      view = <TrainScreen recordSkill={recordSkill} go={go} />;
+      view = <TrainScreen recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'read':
-      view = <ReadClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} />;
+      view = <ReadClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'set':
-      view = <SetClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} />;
+      view = <SetClockScreen difficulty={screen.difficulty} recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'elapsed':
-      view = <ElapsedScreen recordSkill={recordSkill} go={go} />;
+      view = <ElapsedScreen recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'convert':
-      view = <ConvertScreen recordSkill={recordSkill} go={go} />;
+      view = <ConvertScreen recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'daypart':
-      view = <DayPartScreen recordSkill={recordSkill} go={go} />;
+      view = <DayPartScreen recordSkill={recordSkill} go={go} stars={progress.stars} />;
       break;
     case 'test':
       view = <TestScreen recordSkill={recordSkill} finishTest={finishTest} go={go} />;

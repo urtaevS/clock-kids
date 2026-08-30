@@ -4,6 +4,7 @@ import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
 import OwlMascot from '../components/OwlMascot';
+import StarsPill from '../components/StarsPill';
 import { makeReadQuestion } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
 import { playCorrect, playWrong } from '../lib/sounds';
@@ -16,10 +17,12 @@ export default function ReadClockScreen({
   difficulty,
   recordSkill,
   go,
+  stars,
 }: {
   difficulty?: TimeDifficulty;
   recordSkill: (s: ClockSkill, ok: boolean) => void;
   go: (s: Screen) => void;
+  stars: number;
 }) {
   const pickMixed = (base: TimeDifficulty): TimeDifficulty => {
     const r = Math.random();
@@ -87,7 +90,7 @@ export default function ReadClockScreen({
   };
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
         <button
           type="button"
@@ -97,7 +100,7 @@ export default function ReadClockScreen({
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
         <h1 className="text-center font-display text-base font-bold">Определи время</h1>
-        <span aria-hidden className="h-12 w-12" />
+        <span className="flex justify-end"><StarsPill stars={stars} /></span>
       </div>
 
       <div className="mt-4 flex justify-center">

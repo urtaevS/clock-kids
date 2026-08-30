@@ -4,6 +4,7 @@ import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
 import OwlMascot from '../components/OwlMascot';
+import StarsPill from '../components/StarsPill';
 import { formatDigital, makeSetQuestion, sameTime } from '../lib/clock';
 import { playCorrect, playWrong } from '../lib/sounds';
 import type { Screen, TimeDifficulty, ClockSkill } from '../types';
@@ -12,10 +13,12 @@ export default function SetClockScreen({
   difficulty,
   recordSkill,
   go,
+  stars,
 }: {
   difficulty?: TimeDifficulty;
   recordSkill: (s: ClockSkill, ok: boolean) => void;
   go: (s: Screen) => void;
+  stars: number;
 }) {
   const pickMixed = (base: TimeDifficulty): TimeDifficulty => {
     const r = Math.random();
@@ -78,13 +81,13 @@ export default function SetClockScreen({
   };
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
         <button type="button" onClick={() => go({ name: 'home' })} className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5">
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
         <h1 className="text-center font-display text-sm font-bold">Выставь стрелки</h1>
-        <span aria-hidden className="h-12 w-12" />
+        <span className="flex justify-end"><StarsPill stars={stars} /></span>
       </div>
       <div className="mt-4 rounded-blob bg-white p-4 text-center shadow-[0_6px_0_#f0e7d6]">
         <p className="font-display text-4xl font-bold">{formatDigital(q.target)}</p>

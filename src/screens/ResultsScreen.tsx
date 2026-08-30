@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
-import { ArrowLeft, Download, Upload, Star, Target, Flame, BookOpen, Zap } from 'lucide-react';
+import { ArrowLeft, Download, Upload, Star, Target, Flame, BookOpen, Zap, RefreshCw } from 'lucide-react';
+import { Capacitor } from '@capacitor/core';
 import BigButton from '../components/BigButton';
+import SoundButton from '../components/SoundButton';
 import { Icon } from '../lib/icons';
 import type { Progress, Screen } from '../types';
 import { ACHIEVEMENTS } from '../lib/achievements';
@@ -26,6 +28,27 @@ export default function ResultsScreen({
   const [msg, setMsg] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const acc = progress.answersTotal ? Math.round((progress.answersCorrect / progress.answersTotal) * 100) : 0;
+  const [checking, setChecking] = useState(false);
+
+  const checkUpdate = async () => {
+    setChecking(true);
+    try {
+      const r = await fetch('https://api.github.com/repos/urtaevS/clock-kids/releases/latest', { headers: { Accept: 'application/vnd.github+json' } });
+      if (!r.ok) throw new Error();
+      const j = (await r.json()) as { tag_name: string; html_url: string };
+      const cur = `v${__APP_VERSION__}`;
+      if (j.tag_name && j.tag_name !== cur) {
+        if (Capacitor.isNativePlatform()) window.open(j.html_url, '_blank');
+        else window.location.href = j.html_url;
+        setMsg(`Доступна ${j.tag_name}`);
+      } else setMsg('У тебя последняя версия');
+    } catch {
+      setMsg('Не удалось проверить');
+    } finally {
+      setChecking(false);
+      setTimeout(() => setMsg(null), 3000);
+    }
+  };
 
   const exportData = () => {
     try {
@@ -66,7 +89,7 @@ export default function ResultsScreen({
   };
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="flex items-center gap-2">
         <button
           type="button"
@@ -82,6 +105,10 @@ export default function ResultsScreen({
       </div>
 
       {msg && <div className="mt-3 rounded-2xl bg-ink px-4 py-2 text-center text-sm font-extrabold text-white">{msg}</div>}
+
+      <div className="mt-3 flex justify-center">
+        <SoundButton />
+      </div>
 
       <section className="mt-4 rounded-blob bg-white p-5 shadow-[0_6px_0_#f0e7d6]">
         <h2 className="font-display text-base font-bold">Статистика</h2>
@@ -180,7 +207,12 @@ export default function ResultsScreen({
         >
           Сбросить прогресс
         </BigButton>
-        <p className="text-center text-xs font-bold text-[#b8a9c8]">v{__APP_VERSION__}</p>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-center text-xs font-bold text-[#b8a9c8]">v{__APP_VERSION__}</p>
+          <button type="button" onClick={checkUpdate} disabled={checking} className="inline-flex items-center gap-1 rounded-full border border-[#ece3d2] bg-white px-2.5 py-1 text-[11px] font-extrabold text-[#8d84a3] shadow-sm disabled:opacity-60">
+            <RefreshCw size={11} className={checking ? 'animate-spin' : ''} /> Проверить
+          </button>
+        </div>
       </div>
     </main>
   );

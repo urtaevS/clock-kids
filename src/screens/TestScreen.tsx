@@ -100,7 +100,7 @@ export default function TestScreen({
   }
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="flex items-center gap-2">
         <button
           type="button"

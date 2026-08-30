@@ -4,12 +4,13 @@ import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
 import OwlMascot from '../components/OwlMascot';
+import StarsPill from '../components/StarsPill';
 import { formatDigital, makeElapsedQuestion } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
 import { playCorrect, playWrong } from '../lib/sounds';
 import type { Screen, ClockSkill } from '../types';
 
-export default function ElapsedScreen({ recordSkill, go }: { recordSkill: (s: ClockSkill, ok: boolean) => void; go: (s: Screen) => void }) {
+export default function ElapsedScreen({ recordSkill, go, stars }: { recordSkill: (s: ClockSkill, ok: boolean) => void; go: (s: Screen) => void; stars: number }) {
   const [q, setQ] = useState(() => makeElapsedQuestion());
   const [phase, setPhase] = useState<'ask' | 'correct' | 'wrong'>('ask');
   const [picked, setPicked] = useState<string | null>(null);
@@ -45,13 +46,13 @@ export default function ElapsedScreen({ recordSkill, go }: { recordSkill: (s: Cl
   };
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
         <button type="button" onClick={() => go({ name: 'home' })} className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5">
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
         <h1 className="text-center font-display text-base font-bold">Сколько прошло?</h1>
-        <span aria-hidden className="h-12 w-12" />
+        <span className="flex justify-end"><StarsPill stars={stars} /></span>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">

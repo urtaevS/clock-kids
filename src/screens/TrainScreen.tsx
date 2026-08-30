@@ -4,6 +4,7 @@ import AnalogClock from '../components/AnalogClock';
 import BigButton from '../components/BigButton';
 import Confetti from '../components/Confetti';
 import OwlMascot from '../components/OwlMascot';
+import { Star } from 'lucide-react';
 import { formatDigital, makeReadQuestion, makeSetQuestion, sameTime } from '../lib/clock';
 import { makeElapsedQuestion, makeConvertQuestion } from '../lib/clock';
 import { OPT_STYLES } from '../lib/styles';
@@ -80,7 +81,7 @@ function makeQ(mode: Mode): Q {
   return { mode: 'daypart', time, answer, options: [...seen].sort(() => Math.random() - 0.5), part };
 }
 
-export default function TrainScreen({ recordSkill, go }: { recordSkill: (s: ClockSkill, ok: boolean) => void; go: (s: Screen) => void }) {
+export default function TrainScreen({ recordSkill, go, stars }: { recordSkill: (s: ClockSkill, ok: boolean) => void; go: (s: Screen) => void; stars: number }) {
   const [q, setQ] = useState<Q>(() => makeQ(pickMode()));
   const [phase, setPhase] = useState<'ask' | 'correct' | 'wrong'>('ask');
   const [picked, setPicked] = useState<string | number | null>(null);
@@ -113,13 +114,17 @@ export default function TrainScreen({ recordSkill, go }: { recordSkill: (s: Cloc
   const title = MODE_TITLES[q.mode];
 
   return (
-    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-5">
+    <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-3">
       <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2">
         <button type="button" onClick={() => go({ name: 'home' })} className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-[0_4px_0_#ece3d2] active:translate-y-0.5">
           <ArrowLeft size={24} strokeWidth={2.8} />
         </button>
         <h1 className="text-center font-display text-base font-bold">{title}</h1>
-        <span aria-hidden className="h-12 w-12" />
+        <span className="flex items-center justify-end">
+          <span className="inline-flex items-center gap-1 rounded-full bg-sun-soft px-2.5 py-1.5 text-xs font-extrabold text-[#7a4d00] shadow-[0_3px_0_#f0e7d6]">
+            <Star size={18} fill="#f5b73d" /> {stars}
+          </span>
+        </span>
       </div>
 
       <Confetti burst={burst} />

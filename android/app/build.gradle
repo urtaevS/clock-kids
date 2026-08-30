@@ -41,12 +41,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            if (project.hasProperty('signingConfigs') && signingConfigs.hasProperty('release')) {
-                def ksFile = file('release.keystore')
-                def ksB64 = System.getenv('ANDROID_KEYSTORE_BASE64')
-                if ((ksFile.exists() || ksB64) && System.getenv('KEYSTORE_PASSWORD')) {
-                    signingConfig signingConfigs.release
-                }
+            // Применяем релизную подпись к debug-сборке, если есть секреты
+            def ksB64 = System.getenv('ANDROID_KEYSTORE_BASE64')
+            if (ksB64 && System.getenv('KEYSTORE_PASSWORD')) {
+                signingConfig signingConfigs.release
             }
         }
     }

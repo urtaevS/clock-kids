@@ -104,7 +104,11 @@ export default function ResultsScreen({
         </span>
       </div>
 
-      {msg && <div className="mt-3 rounded-2xl bg-ink px-4 py-2 text-center text-sm font-extrabold text-white">{msg}</div>}
+      {msg && (
+        <div className="fixed bottom-20 left-4 right-4 z-50 rounded-2xl bg-ink px-4 py-3 text-center text-sm font-extrabold text-white shadow-lg">
+          {msg}
+        </div>
+      )}
 
       <div className="mt-3 flex justify-center">
         <SoundButton />

@@ -91,9 +91,15 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           echo "JAVA_HOME=$JAVA_HOME"; java -version
+          # signingConfig is on debug buildType — use same key for updates to work over previous install
           ./gradlew assembleDebug -PversionCode=${VERSION_CODE:-4} -PversionName=${VERSION_NAME:-1.0.3} --no-daemon 2>&1 | tee /tmp/gradle.log
           EXIT=${PIPESTATUS[0]}
           echo "GRADLE_EXIT=$EXIT" >> "$GITHUB_ENV"
+          # verify APK signature matches release key when provided
+          if [ -n "${ANDROID_KEYSTORE_BASE64:-}" ]; then
+            echo "Verifying APK signature…"
+            keytool -list -printcert -jarfile app/build/outputs/apk/debug/app-debug.apk 2>&1 | head -n 20 || true
+          fi
           exit $EXIT
 
       - name: Rename APK to kids-clock

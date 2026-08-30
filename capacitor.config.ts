@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.akira.kidsclock',
-  appName: 'Часики — учим время',
+  appName: 'Часики',
   webDir: 'dist',
   plugins: {
     StatusBar: {

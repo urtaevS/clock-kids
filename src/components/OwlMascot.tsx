@@ -42,7 +42,7 @@ export default function OwlMascot({
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <div aria-hidden className="h-[96px] w-[96px] shrink-0">
-        <DotLottieReact src="/owl.json" autoplay={false} loop={false} dotLottieRefCallback={setDotLottie} className="h-[96px] w-[96px]" />
+        <DotLottieReact src={`${import.meta.env.BASE_URL}owl.json`} autoplay={false} loop={false} dotLottieRefCallback={setDotLottie} className="h-[96px] w-[96px]" />
       </div>
       {message && (
         <div className="animate-pop-in relative rounded-2xl rounded-bl-md bg-white px-4 py-2.5 font-extrabold shadow-[0_4px_0_#ece3d2]">

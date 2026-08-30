@@ -19,7 +19,7 @@ export default function Mascot({ message, className = '' }: { message?: string; 
     <div className={`flex items-center gap-2.5 ${className}`}>
       <div aria-hidden className="h-[68px] w-[68px] shrink-0">
         <DotLottieReact
-          src="/mascot.json"
+          src={`${import.meta.env.BASE_URL}mascot.json`}
           autoplay
           dotLottieRefCallback={setDotLottie}
           className="h-[68px] w-[68px]"

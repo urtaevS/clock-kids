@@ -34,7 +34,7 @@ export default function HomeScreen({ progress, go }: { progress: Progress; go: (
   return (
     <main className="relative z-10 mx-auto max-w-md px-4 pb-32 pt-6">
       <div className="flex justify-center">
-        <Mascot emoji="⏰" message={greeting} />
+        <Mascot message={greeting} />
       </div>
 
       <header className="mt-4 text-center">

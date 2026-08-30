@@ -131,7 +131,7 @@ jobs:
             echo "$LOG" | sed 's/^/- /' | sed 's/^- - /- /' | sed 's/^-- /- /'
             echo ""
             echo "### Скачать"
-            echo "- **Android APK:** \`app-debug.apk\` ниже — установка поверх текущего сохраняет прогресс"
+            echo "- **Android APK:** \`kids-clock.apk\` ниже — установка поверх текущего сохраняет прогресс"
             echo "- **Web/PWA:** https://urtaevs.github.io/clock-kids/"
             echo ""
             echo "> Не удаляй приложение перед обновлением — только «Обновить» поверх."

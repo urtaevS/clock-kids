@@ -7,8 +7,8 @@ android {
         applicationId "com.akira.kidsclock"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode (project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 4)
-        versionName (project.hasProperty('versionName') ? project.property('versionName').toString() : "1.0.3")
+        versionCode (project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 1400)
+        versionName (project.hasProperty('versionName') ? project.property('versionName').toString() : "1.4.0")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -28,10 +28,16 @@ android {
                 ksFile = file(ksPath)
             }
             if (ksFile.exists()) {
-                storeFile ksFile
-                storePassword System.getenv('KEYSTORE_PASSWORD') ?: 'multtable123'
-                keyAlias System.getenv('KEY_ALIAS') ?: 'release'
-                keyPassword System.getenv('KEY_PASSWORD') ?: 'multtable123'
+                def ksp = System.getenv('KEYSTORE_PASSWORD')
+                def kp = System.getenv('KEY_PASSWORD')
+                if (!ksp || !kp) {
+                    logger.warn('KEYSTORE_PASSWORD / KEY_PASSWORD not set — release signing skipped (debug build will be unsigned)')
+                } else {
+                    storeFile ksFile
+                    storePassword ksp
+                    keyAlias System.getenv('KEY_ALIAS') ?: 'release'
+                    keyPassword kp
+                }
             }
         }
     }

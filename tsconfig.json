@@ -10,7 +10,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "useDefineForClassFields": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

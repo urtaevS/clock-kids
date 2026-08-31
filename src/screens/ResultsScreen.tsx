@@ -57,19 +57,39 @@ export default function ResultsScreen({
       const raw = JSON.stringify(progress, null, 2);
       const fileName = `chasy-progress-${new Date().toISOString().slice(0, 10)}.json`;
       if (Capacitor.isNativePlatform()) {
-        const { uri } = await Filesystem.writeFile({
-          path: fileName,
-          data: raw,
-          directory: Directory.Cache,
-          encoding: 'utf8' as any,
-        });
-        await Share.share({
-          title: 'Прогресс Часики',
-          text: 'Файл прогресса',
-          url: uri,
-          dialogTitle: 'Сохранить файл',
-        });
-        setMsg(`Сохранено: ${fileName} · Поделиться → Сохранить`);
+        // Try Documents first (visible in Files), fallback to Cache
+        let uri: string | null = null;
+        let savedPath = '';
+        try {
+          const r = await Filesystem.writeFile({
+            path: fileName,
+            data: raw,
+            directory: Directory.Documents,
+            encoding: 'utf8' as any,
+          } as any);
+          uri = r.uri;
+          savedPath = `Documents/${fileName}`;
+        } catch {
+          const r2 = await Filesystem.writeFile({
+            path: fileName,
+            data: raw,
+            directory: Directory.Cache,
+            encoding: 'utf8' as any,
+          } as any);
+          uri = r2.uri;
+          savedPath = `Cache/${fileName}`;
+        }
+        if (uri) {
+          try {
+            await Share.share({
+              title: 'Прогресс Часики',
+              text: `Файл ${fileName}`,
+              url: uri,
+              dialogTitle: `Сохранить ${fileName}`,
+            });
+          } catch {}
+        }
+        setMsg(`Сохранено: ${savedPath}`);
       } else {
         const blob = new Blob([raw], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -82,11 +102,11 @@ export default function ResultsScreen({
         setTimeout(() => URL.revokeObjectURL(url), 1000);
         setMsg(`Сохранено в Загрузки: ${fileName}`);
       }
-      setTimeout(() => setMsg(null), 4000);
+      setTimeout(() => setMsg(null), 5000);
     } catch (e) {
       console.error(e);
-      setMsg('Не удалось сохранить');
-      setTimeout(() => setMsg(null), 2500);
+      setMsg('Не удалось сохранить: ' + String((e as any)?.message ?? e));
+      setTimeout(() => setMsg(null), 3500);
     }
   };
 

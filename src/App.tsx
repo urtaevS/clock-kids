@@ -120,7 +120,26 @@ export default function App() {
       <Decor />
       <div key={screenKey} className="animate-screen-in">{view}</div>
       <BottomNav active={active} onNavigate={onNavigate} />
-      <UpdateBanner current={`v${__APP_VERSION__}`} />
+      <UpdateBanner
+        current={`v${__APP_VERSION__}`}
+        onUpdateFound={() => {
+          // На нативе (APK) сразу подтягиваем свежий SW и перезагружаем — версия обновится мгновенно
+          if (!Capacitor.isNativePlatform()) return;
+          (async () => {
+            try {
+              if ('serviceWorker' in navigator) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                for (const r of regs) {
+                  try { await r.update(); } catch {}
+                  if (r.waiting) r.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+              }
+            } catch {}
+            // Даём SW шанс активироваться, затем reload
+            setTimeout(() => window.location.reload(), 900);
+          })();
+        }}
+      />
       {toast && (
         <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
           <div className="inline-flex items-center gap-2 animate-toast rounded-full bg-ink px-5 py-2.5 font-extrabold text-white shadow-xl">

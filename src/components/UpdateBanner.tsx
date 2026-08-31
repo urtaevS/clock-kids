@@ -12,7 +12,7 @@ function cmp(a: string, b: string): number {
   return 0;
 }
 
-export default function UpdateBanner({ current }: { current: string }) {
+export default function UpdateBanner({ current, onUpdateFound }: { current: string; onUpdateFound?: (tag: string) => void }) {
   const [latest, setLatest] = useState<{ tag: string; url: string } | null>(null);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ export default function UpdateBanner({ current }: { current: string }) {
         if (!j.tag_name || cmp(j.tag_name, current) <= 0) return;
         if (dismissed === j.tag_name) return;
         setLatest({ tag: j.tag_name, url: j.html_url });
+        onUpdateFound?.(j.tag_name);
       } catch { /* offline — ignore */ }
     })();
     return () => { cancelled = true; };

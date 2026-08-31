@@ -39,7 +39,8 @@ export default function ResultsScreen({
       if (!r.ok) throw new Error();
       const j = (await r.json()) as { tag_name: string; html_url: string };
       const cur = `v${__APP_VERSION__}`;
-      if (j.tag_name && j.tag_name !== cur) {
+      const cmpVer = (a: string, b: string) => { const pa = a.replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0); const pb = b.replace(/^v/, '').split('.').map(n => parseInt(n, 10) || 0); const len = Math.max(pa.length, pb.length); for (let i = 0; i < len; i++) if ((pa[i] ?? 0) !== (pb[i] ?? 0)) return (pa[i] ?? 0) - (pb[i] ?? 0); return 0; };
+      if (j.tag_name && cmpVer(j.tag_name, cur) > 0) {
         if (Capacitor.isNativePlatform()) window.open(j.html_url, '_blank');
         else window.location.href = j.html_url;
         setMsg(`Доступна ${j.tag_name}`);

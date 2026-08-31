@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 const BASE = process.env.NODE_ENV === 'production' ? './' : '/';
 export default defineConfig({
-  define: { __APP_VERSION__: JSON.stringify(process.env.APP_VERSION || process.env.npm_package_version || '1.0.0') },
+  define: { __APP_VERSION__: JSON.stringify(process.env.APP_VERSION || '1.4.0') },
   base: BASE,
   server: {
     host: true, // expose on the local network (0.0.0.0), not just localhost

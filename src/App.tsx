@@ -122,9 +122,10 @@ export default function App() {
       <BottomNav active={active} onNavigate={onNavigate} />
       <UpdateBanner
         current={`v${__APP_VERSION__}`}
-        onUpdateFound={() => {
-          // На нативе (APK) сразу подтягиваем свежий SW и перезагружаем — версия обновится мгновенно
+        onUpdateFound={(tag) => {
           if (!Capacitor.isNativePlatform()) return;
+          const KEY = `apk-auto-reload-${tag}`;
+          try { if (sessionStorage.getItem(KEY) === '1') return; sessionStorage.setItem(KEY, '1'); } catch {}
           (async () => {
             try {
               if ('serviceWorker' in navigator) {
@@ -135,7 +136,6 @@ export default function App() {
                 }
               }
             } catch {}
-            // Даём SW шанс активироваться, затем reload
             setTimeout(() => window.location.reload(), 900);
           })();
         }}

@@ -55,7 +55,7 @@ export default function ResultsScreen({
   const exportData = async () => {
     try {
       const raw = JSON.stringify(progress, null, 2);
-      const fileName = `chasy-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      const fileName = `chasy-progress-${new Date().toISOString().slice(5, 10)}.json`;
       if (Capacitor.isNativePlatform()) {
         // Try Documents first (visible in Files), fallback to Cache
         let uri: string | null = null;

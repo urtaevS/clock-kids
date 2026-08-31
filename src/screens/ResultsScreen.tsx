@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { ArrowLeft, Download, Upload, Star, Target, Flame, BookOpen, Zap, RefreshCw } from 'lucide-react';
 import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import BigButton from '../components/BigButton';
 import SoundButton from '../components/SoundButton';
 import { Icon } from '../lib/icons';
@@ -50,19 +52,39 @@ export default function ResultsScreen({
     }
   };
 
-  const exportData = () => {
+  const exportData = async () => {
     try {
       const raw = JSON.stringify(progress, null, 2);
-      const blob = new Blob([raw], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `chasy-progress-${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      setMsg('Файл сохранён');
-      setTimeout(() => setMsg(null), 2500);
-    } catch {
+      const fileName = `chasy-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      if (Capacitor.isNativePlatform()) {
+        const { uri } = await Filesystem.writeFile({
+          path: fileName,
+          data: raw,
+          directory: Directory.Cache,
+          encoding: 'utf8' as any,
+        });
+        await Share.share({
+          title: 'Прогресс Часики',
+          text: 'Файл прогресса',
+          url: uri,
+          dialogTitle: 'Сохранить файл',
+        });
+        setMsg(`Сохранено: ${fileName} · Поделиться → Сохранить`);
+      } else {
+        const blob = new Blob([raw], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setMsg(`Сохранено в Загрузки: ${fileName}`);
+      }
+      setTimeout(() => setMsg(null), 4000);
+    } catch (e) {
+      console.error(e);
       setMsg('Не удалось сохранить');
       setTimeout(() => setMsg(null), 2500);
     }
